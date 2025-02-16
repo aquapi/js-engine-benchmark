@@ -18,6 +18,8 @@ await Bun.build({
   target: "bun",
 });
 
+Bun.$.nothrow();
+
 for (const test of new Bun.Glob("**/*.js").scanSync(DIST)) {
   console.log("*", test.substring(0, test.lastIndexOf(".")));
 
