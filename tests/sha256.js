@@ -27,10 +27,10 @@ const ROTR = (n, x) => (x >>> n) | (x << (32 - n));
  * Logical functions [§4.1.2].
  * @private
  */
-const Σ0 = (x) => ROTR(2, x) ^ ROTR(13, x) ^ ROTR(22, x);
-const Σ1 = (x) => ROTR(6, x) ^ ROTR(11, x) ^ ROTR(25, x);
-const σ0 = (x) => ROTR(7, x) ^ ROTR(18, x) ^ (x >>> 3);
-const σ1 = (x) => ROTR(17, x) ^ ROTR(19, x) ^ (x >>> 10);
+const _0 = (x) => ROTR(2, x) ^ ROTR(13, x) ^ ROTR(22, x);
+const _1 = (x) => ROTR(6, x) ^ ROTR(11, x) ^ ROTR(25, x);
+const __0 = (x) => ROTR(7, x) ^ ROTR(18, x) ^ (x >>> 3);
+const __1 = (x) => ROTR(17, x) ^ ROTR(19, x) ^ (x >>> 10);
 const Ch = (x, y, z) => (x & y) ^ (~x & z);
 const Maj = (x, y, z) => (x & y) ^ (x & z) ^ (y & z);
 
@@ -79,7 +79,8 @@ const hash = (msg) => {
     // 1 - prepare message schedule 'W'
     for (let t = 0; t < 16; t++) W[t] = M[i][t];
     for (let t = 16; t < 64; t++)
-      W[t] = (σ1(W[t - 2]) + W[t - 7] + σ0(W[t - 15]) + W[t - 16]) & 0xffffffff;
+      W[t] =
+        (__1(W[t - 2]) + W[t - 7] + __0(W[t - 15]) + W[t - 16]) & 0xffffffff;
 
     // 2 - initialise working letiables a, b, c, d, e, f, g, h with previous hash value
     a = H[0];
@@ -93,7 +94,7 @@ const hash = (msg) => {
 
     // 3 - main loop (note 'addition modulo 2^32')
     for (let t = 0, T1; t < 64; t++) {
-      T1 = h + Σ1(e) + Ch(e, f, g) + K[t] + W[t];
+      T1 = h + _1(e) + Ch(e, f, g) + K[t] + W[t];
       h = g;
       g = f;
       f = e;
@@ -101,7 +102,7 @@ const hash = (msg) => {
       d = c;
       c = b;
       b = a;
-      a = (T1 + Σ0(a) + Maj(a, b, c)) & 0xffffffff;
+      a = (T1 + _0(a) + Maj(a, b, c)) & 0xffffffff;
     }
     // 4 - compute the new intermediate hash value (note 'addition modulo 2^32')
     H[0] = (H[0] + a) & 0xffffffff;

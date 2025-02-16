@@ -8,7 +8,7 @@ export const excludeTest = (name) => false;
  * @param {string} name
  * @returns {boolean}
  */
-export const includeTest = (name) => name === "regex";
+export const includeTest = (name) => true;
 
 /**
  * @param {string} name

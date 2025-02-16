@@ -12,9 +12,11 @@ bun i jsvu -g
 jsvu
 ```
 
-Change JS engine commands at [run.js](./run.js).
-
 Then you can start running the benchmark:
 ```sh
 bun start
 ```
+
+## Config
+- Change JS engine commands at [run.js](./config/run.js).
+- Change tests and engines filter at [filter.js](./config/filter.js).
