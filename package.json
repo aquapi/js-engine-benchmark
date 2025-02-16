@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "eshost-cli": "^9.0.0",
+    "jsvu": "^2.5.1",
+    "mitata": "^1.0.34"
+  },
+  "scripts": {
+    "start": "bun index.js"
+  }
+}
