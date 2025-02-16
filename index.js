@@ -1,5 +1,6 @@
 import fs from "fs";
-import commands from "./run";
+import commands from "./config/run";
+import * as filter from "./config/filter";
 
 const ROOT = import.meta.dir + "/";
 const TESTS = ROOT + "tests/";
@@ -21,10 +22,14 @@ await Bun.build({
 Bun.$.nothrow();
 
 for (const test of new Bun.Glob("**/*.js").scanSync(DIST)) {
-  console.log("*", test.substring(0, test.lastIndexOf(".")));
+  const name = test.substring(0, test.lastIndexOf("."));
+  if (!filter.includeTest(name) || filter.excludeTest(name)) continue;
+  console.log("*", name);
 
-  for (const runtime in commands) {
-    console.log("+", runtime);
-    await Bun.$`${{ raw: commands[runtime] }} ${DIST + test}`;
+  for (const engine in commands) {
+    if (!filter.includeEngine(engine) || filter.excludeEngine(engine)) continue;
+
+    console.log("+", engine);
+    await Bun.$`${{ raw: commands[engine] }} ${DIST + test}`;
   }
 }
