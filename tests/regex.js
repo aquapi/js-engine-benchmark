@@ -85,8 +85,8 @@ bench("ip regex", function* () {
     bench(cases) {
       for (let i = 0; i < cases.length; i++)
         do_not_optimize(
-          // JSC seems to not JIT this atm
-          /(?:25[0-5]\d|2[0-4]\d|1\d\d|[1-9]?\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/.test(
+          // JSC does not optimize this atm
+          /^(?:25[0-5]\d|2[0-4]\d|1\d\d|[1-9]?\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/.test(
             cases[i],
           ),
         );
@@ -144,6 +144,66 @@ bench("email regex", function* () {
       for (let i = 0; i < cases.length; i++)
         do_not_optimize(
           /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+?@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+            cases[i],
+          ),
+        );
+    },
+  };
+});
+
+bench("time regex", function* () {
+  const cases = [
+    "100",
+    "1m",
+    "1h",
+    "2d",
+    "3w",
+    "1s",
+    "100ms",
+    "1.5h",
+    "1   s",
+    "1.5H",
+    ".5ms",
+    "-100ms",
+    "-1.5h",
+    "-10.5h",
+    "-.5h",
+    "53 milliseconds",
+    "17 msecs",
+    "1 sec",
+    "1 min",
+    "1 hr",
+    "2 days",
+    "1.5 hours",
+    "-100 milliseconds",
+    "-1.5 hours",
+    "-.5 hr",
+    "1.5 years",
+    "-12yr",
+    "6 yrs",
+    "500ms",
+    "-500ms",
+    "1s",
+    "10s",
+    "-10s",
+    "-1s",
+    "1m",
+    "10m",
+    "-10m",
+    "-1m",
+    "1h",
+    "10h",
+  ];
+
+  yield {
+    [0]() {
+      return cases;
+    },
+
+    bench(cases) {
+      for (let i = 0; i < cases.length; i++)
+        do_not_optimize(
+          /^(?:-?(?:\d+?)?\.?\d+?) *?(?:m(?:illiseconds?|s(?:ecs?)|in(?:utes?|s?))?)?(?:s(?:ec(?:onds?|s)?)?)?(?:h(?:ours?|rs?)?)?(?:d(?:ays?)?)?(?:w(?:eeks?|ks?)?)?(?:y(?:ears?|rs?)?)?$/.test(
             cases[i],
           ),
         );
