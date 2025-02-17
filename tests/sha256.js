@@ -139,6 +139,6 @@ bench("sha256 - $size items", function* (state) {
       return do_not_optimize(hash(arr));
     },
   };
-}).range("size", 100, 5000, 400);
+}).range("size", 100, 6400, 4);
 
 await run();
