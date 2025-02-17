@@ -37,11 +37,11 @@ const isEmail = (str) => {
     return false;
 
   // Need to check the first part
-  for (let i = 1; i < strLen; i++) {
-    const curCode = str.charCodeAt(i);
+  for (let i = 1, code; i < strLen; i++) {
+    code = str.charCodeAt(i);
 
     // Reach @
-    if (curCode === 64) {
+    if (code === 64) {
       // First char after @ must be a char in domainFirstCharset
       const lastStringIdx = strLen - 1;
       if (
@@ -55,7 +55,7 @@ const isEmail = (str) => {
       if (i === strLen) return true;
 
       for (let matchCount = 1; ; ) {
-        const code = str.charCodeAt(i);
+        code = str.charCodeAt(i);
 
         // Meet a dot
         if (code === 46) {
@@ -115,7 +115,7 @@ const isEmail = (str) => {
       }
     }
 
-    if (firstPartCharset[curCode] !== null) return false;
+    if (firstPartCharset[code] !== null) return false;
   }
 
   return false;
