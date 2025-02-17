@@ -53,7 +53,47 @@ bench("simple regex 2", function* () {
   };
 });
 
-bench("backtracking regex", function* () {
+bench("ip regex 2", function* () {
+  const cases = [
+    "192.168.1.1",
+    "10.0.0.5",
+    "172.16.0.100",
+    "8.8.8.8",
+    "1.1.1.1",
+    "255.255.255.255",
+    "0.0.0.0",
+    "192.0.2.0",
+    "198.51.100.0",
+    "203.0.113.0",
+    "169.254.1.1",
+    "127.0.0.1",
+    "192.168.0.254",
+    "10.10.10.10",
+    "172.31.255.255",
+    "64.233.160.0",
+    "130.211.0.0",
+    "256.0.0.1",
+    "10.0.0",
+    "10.0.0.1.1",
+  ];
+
+  yield {
+    [0]() {
+      return cases;
+    },
+
+    bench(cases) {
+      for (let i = 0; i < cases.length; i++)
+        do_not_optimize(
+          /(?:2(?:5[0-5]|[0-4]\d)|1\d\d|[1-9]?\d)(?:\\.(?:2(?:5[0-5]|[0-4]\d)|1\d\d|[1-9]?\d)){3}/.test(
+            cases[i],
+          ),
+        );
+    },
+  };
+});
+
+bench("email regex", function* () {
   const cases = [
     "test@io.com",
     "test.io@epam.com",
