@@ -1,6 +1,6 @@
 export default {
   // Engines
-  JSC: "jsc -m",
+  JSC: "jsc -m --forceAllFunctionsToUseSIMD=true --useRecursiveJSONParse=false",
   V8: "v8 --expose-gc --allow-natives-syntax --module",
 
   // Runtimes

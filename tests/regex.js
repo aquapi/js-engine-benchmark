@@ -53,7 +53,7 @@ bench("simple regex 2", function* () {
   };
 });
 
-bench("ip regex 2", function* () {
+bench("ip regex", function* () {
   const cases = [
     "192.168.1.1",
     "10.0.0.5",
