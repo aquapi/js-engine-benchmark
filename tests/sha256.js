@@ -127,10 +127,18 @@ const hash = (msg) => {
   );
 };
 
-const keys = new Array(10000).fill(0).map(Math.random).join("");
+bench("sha256 - $size items", function* (state) {
+  const keys = new Array(state.get("size")).fill(0).map(Math.random).join("");
 
-bench("sha256 (js)", () => {
-  do_not_optimize(hash(keys));
-});
+  yield {
+    [0]() {
+      return keys;
+    },
+
+    bench(arr) {
+      return do_not_optimize(hash(arr));
+    },
+  };
+}).range("size", 100, 5000, 400);
 
 await run();
