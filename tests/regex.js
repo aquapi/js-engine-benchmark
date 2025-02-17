@@ -85,7 +85,8 @@ bench("ip regex", function* () {
     bench(cases) {
       for (let i = 0; i < cases.length; i++)
         do_not_optimize(
-          /(?:2(?:5[0-5]|[0-4]\d)|1\d\d|[1-9]?\d)(?:\\.(?:2(?:5[0-5]|[0-4]\d)|1\d\d|[1-9]?\d)){3}/.test(
+          // JSC seems to not JIT this atm
+          /(?:25[0-5]\d|2[0-4]\d|1\d\d|[1-9]?\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}/.test(
             cases[i],
           ),
         );

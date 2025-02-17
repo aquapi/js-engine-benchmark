@@ -21,9 +21,16 @@ await Bun.build({
 
 Bun.$.nothrow();
 
+const selectedTest = process.argv[2];
+
 for (const test of new Bun.Glob("**/*.js").scanSync(DIST)) {
   const name = test.substring(0, test.lastIndexOf("."));
-  if (!filter.includeTest(name) || filter.excludeTest(name)) continue;
+  if (
+    !filter.includeTest(name) ||
+    filter.excludeTest(name) ||
+    (selectedTest != null && name !== selectedTest)
+  )
+    continue;
   console.log("*", name);
 
   for (const engine in commands) {
